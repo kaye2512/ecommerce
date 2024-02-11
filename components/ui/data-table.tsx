@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import React from "react";
+import React, {useState} from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -35,7 +35,7 @@ export function DataTable<TData, TValue>({
                                             searchKey,
                                          }: DataTableProps<TData, TValue>) {
 
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
     )
 
@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
                     placeholder="search"
                     value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn(searchKey)?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />

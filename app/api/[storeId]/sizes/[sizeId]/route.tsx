@@ -4,25 +4,25 @@ import prismadb from "@/lib/prismadb";
 
 
 
-export async function GET (req: Request, { params }: { params: {billboardId: string}}){
+export async function GET (req: Request, { params }: { params: {sizeId: string}}){
     try {
 
-        if (!params.billboardId) {
+        if (!params.sizeId) {
             return new NextResponse("Billboard id is required", {status: 400})
         }
 
         // connexion a la base de donnée et recuperation
-        const billboard = await prismadb.billboard.findUnique({
+        const size = await prismadb.size.findUnique({
             where: {
-                id: params.billboardId,
+                id: params.sizeId,
 
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(size)
 
     }catch (error) {
-        console.log('[BILLBOARDS_GET]', error);
+        console.log('[SIZE_GET]', error);
         return new NextResponse("Internal error", {status: 500});
 
     }
@@ -30,27 +30,29 @@ export async function GET (req: Request, { params }: { params: {billboardId: str
 
 
 
-export async function PATCH (req: Request, { params }: { params: { storeId: string, billboardId: string}}){
+export async function PATCH (req: Request, { params }: { params: { storeId: string, sizeId: string}}){
     try {
-        const {userId} = auth();
+
+        const { userId} = auth();
+
         const body = await req.json();
 
-        const {label, imageUrl} = body;
+        const {name, value} = body;
 
         if(!userId){
             return new NextResponse("Unauthenticated", {status: 401});
         }
 
-        if (!label) {
-            return new NextResponse("label is required", { status: 400});
+        if (!name) {
+            return new NextResponse("Name is required", { status: 400});
         }
 
-        if (!imageUrl) {
-            return new NextResponse("ImageUrl is required", { status: 400});
+        if (!value) {
+            return new NextResponse("Value is required", { status: 400});
         }
 
-        if (!params.billboardId) {
-            return new NextResponse("Billboard id is required", {status: 400})
+        if (!params.sizeId) {
+            return new NextResponse("Size id is required", {status: 400})
         }
 
         // verifions si l'utilisateur a le droit de modifier cette store
@@ -66,26 +68,26 @@ export async function PATCH (req: Request, { params }: { params: { storeId: stri
         }
 
         // connexion a la base de donnée et update
-        const billboard = await prismadb.billboard.updateMany({
+        const size = await prismadb.size.updateMany({
             where: {
-                id: params.billboardId,
+                id: params.sizeId,
             },
             data: {
-                label,
-                imageUrl
+                name,
+                value
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(size)
 
     }catch (error) {
-        console.log('[BILLBOARD_PATCH]', error);
+        console.log('[SIZE_PATCH]', error);
         return new NextResponse("Internal error", {status: 500});
 
     }
 }
 
-export async function DELETE (req: Request, { params }: { params: {storeId: string, billboardId: string}}){
+export async function DELETE (req: Request, { params }: { params: {storeId: string, sizeId: string}}){
     try {
         const {userId} = auth();
 
@@ -95,8 +97,8 @@ export async function DELETE (req: Request, { params }: { params: {storeId: stri
         }
 
 
-        if (!params.billboardId) {
-            return new NextResponse("Billboard id is required", {status: 400})
+        if (!params.sizeId) {
+            return new NextResponse("Size id is required", {status: 400})
         }
 
         // verifions si l'utilisateur a le droit de modifier cette store
@@ -112,17 +114,17 @@ export async function DELETE (req: Request, { params }: { params: {storeId: stri
         }
 
         // connexion a la base de donnée et Delete
-        const billboard = await prismadb.billboard.deleteMany({
+        const size = await prismadb.size.deleteMany({
             where: {
-                id: params.billboardId,
+                id: params.sizeId,
 
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(size)
 
     }catch (error) {
-        console.log('[BILLBOARDS_DELETE]', error);
+        console.log('[SIZE_DELETE]', error);
         return new NextResponse("Internal error", {status: 500});
 
     }
