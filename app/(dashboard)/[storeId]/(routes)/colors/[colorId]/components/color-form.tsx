@@ -8,7 +8,7 @@ import {Trash} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useState} from "react";
+import React, {useState} from "react";
 import {
     Form,
     FormControl,
@@ -27,7 +27,9 @@ import {AlertModal} from "@/components/modals/alert-modal";
 
 const formSchema = z.object({
     name: z.string().min(1),
-    value: z.string().min(1)
+    value: z.string().min(4).regex(/^#/,{
+        message: 'String must be a valid hex code'
+    })
 })
 
 type ColorFormValues = z.infer<typeof formSchema>
@@ -86,7 +88,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({initialData}) => {
             router.push(`/${params.storeId}/colors`);
             toast.success("Colors deleted successfully");
         } catch (error) {
-            toast.error("Make sure you removed all product using this size first.")
+            toast.error("Make sure you removed all product using this color first.")
         } finally {
             setLoading(false)
             setOpen(false)
@@ -146,7 +148,15 @@ export const ColorForm: React.FC<ColorFormProps> = ({initialData}) => {
                                 <FormItem>
                                     <FormLabel>value</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder={"Color value"} {...field}/>
+                                        <div className={"flex items-center gap-x-4"}>
+                                            <Input disabled={loading} placeholder={"Color value"} {...field}/>
+                                            <div
+                                                className={"border p-4 rounded-full"}
+                                                style={{backgroundColor: field.value}}
+                                            />
+
+                                        </div>
+
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

@@ -7,15 +7,14 @@ import {Separator} from "@/components/ui/separator";
 import {useParams, useRouter} from "next/navigation";
 import {DataTable} from "@/components/ui/data-table";
 import ApiList from "@/components/ui/api-list";
-import {ColorsColumn, columns} from "@/app/(dashboard)/[storeId]/(routes)/colors/components/columns";
-import React from "react";
+import {columns, ProductsColumn} from "@/app/(dashboard)/[storeId]/(routes)/products/components/columns";
 
 // interface qui va contenir notre data props
-interface ColorClientProps {
-    data: ColorsColumn[]
+interface ProductClientProps {
+    data: ProductsColumn[]
 }
 
-export const ColorClient: React.FC<ColorClientProps> = ({data}) => {
+export const ProductClient: React.FC<ProductClientProps> = ({data}) => {
     const router = useRouter()
     const params= useParams()
 
@@ -23,21 +22,21 @@ export const ColorClient: React.FC<ColorClientProps> = ({data}) => {
         <>
             <div className={"flex items-center justify-between"}>
                 <Heading
-                    title={`Colors (${data.length})`}
-                    description={"Manage colors for your store"}
+                    title={`Products (${data.length})`}
+                    description={"Manage product for your store"}
                 />
-                <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+                <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
                     <Plus className={"mr-2 h-4 w-4"}/>
                     Add New
                 </Button>
             </div>
             <Separator/>
-            <DataTable searchKey={"name"} columns={columns} data={data} />
-            <Heading title={"Api"} description={"Api calls for colors"}/>
+            <DataTable searchKey={"label"} columns={columns} data={data} />
+            <Heading title={"Api"} description={"Api calls for products"}/>
             <Separator/>
             <ApiList
-                entityName={"colors"}
-                entityIdName={"colorId"}
+                entityName={"products"}
+                entityIdName={"productId"}
             />
 
 
