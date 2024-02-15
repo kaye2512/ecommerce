@@ -37,8 +37,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Dependecies
 
--zod 
-
--zustand for hook
-
--prisma ORM and planetscale for data base
+- zod
+- zustand for hook
+- prisma ORM and planetscale for data base
+- rechart
+- schadcn
+- stripe
