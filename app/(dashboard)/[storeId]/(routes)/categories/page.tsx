@@ -4,7 +4,8 @@ import {CategoryColumn} from "@/app/(dashboard)/[storeId]/(routes)/categories/co
 import {CategoryClient} from "@/app/(dashboard)/[storeId]/(routes)/categories/components/client";
 
 // params c'est pour determiné l'id qui est connecté a ma billboards la reference est situé dans nos folders [] en nextjs
-const CategoriesPage = async ({params}: {params: {storeId: string}}) => {
+const CategoriesPage = async (props: {params: Promise<{storeId: string}>}) => {
+    const params = await props.params;
 
     const categories = await prismadb.category.findMany({
         where: {

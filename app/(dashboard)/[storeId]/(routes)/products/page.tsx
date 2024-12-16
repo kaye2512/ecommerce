@@ -7,7 +7,8 @@ import {ProductClient} from "@/app/(dashboard)/[storeId]/(routes)/products/compo
 import {formater} from "@/lib/utils";
 
 // params c'est pour determiné l'id qui est connecté a ma billboards la reference est situé dans nos folders [] en nextjs
-const ProductsPage = async ({params}: {params: {storeId: string}}) => {
+const ProductsPage = async (props: {params: Promise<{storeId: string}>}) => {
+    const params = await props.params;
 
     const products = await prismadb.product.findMany({
         where: {

@@ -6,10 +6,18 @@ import Navbar from "@/components/navbar";
 
 
 // this way we can get navbar in every root
-export default async function DashboardLayout ({children, params}:{
-    children: React.ReactNode;
-    params: {storeId: string}
-}){
+export default async function DashboardLayout(
+    props:{
+        children: React.ReactNode;
+        params: Promise<{storeId: string}>
+    }
+) {
+    const params = await props.params;
+
+    const {
+        children
+    } = props;
+
     // verifi si l'utilisateur est connecté
     const { userId } = auth();
 

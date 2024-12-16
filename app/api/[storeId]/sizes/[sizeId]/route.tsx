@@ -4,7 +4,8 @@ import prismadb from "@/lib/prismadb";
 
 
 
-export async function GET (req: Request, { params }: { params: {sizeId: string}}){
+export async function GET(req: Request, props: { params: Promise<{sizeId: string}>}) {
+    const params = await props.params;
     try {
 
         if (!params.sizeId) {
@@ -30,7 +31,11 @@ export async function GET (req: Request, { params }: { params: {sizeId: string}}
 
 
 
-export async function PATCH (req: Request, { params }: { params: { storeId: string, sizeId: string}}){
+export async function PATCH(
+    req: Request,
+    props: { params: Promise<{ storeId: string, sizeId: string}>}
+) {
+    const params = await props.params;
     try {
 
         const { userId} = auth();
@@ -87,7 +92,8 @@ export async function PATCH (req: Request, { params }: { params: { storeId: stri
     }
 }
 
-export async function DELETE (req: Request, { params }: { params: {storeId: string, sizeId: string}}){
+export async function DELETE(req: Request, props: { params: Promise<{storeId: string, sizeId: string}>}) {
+    const params = await props.params;
     try {
         const {userId} = auth();
 

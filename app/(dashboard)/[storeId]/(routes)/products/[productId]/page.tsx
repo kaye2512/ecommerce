@@ -1,7 +1,8 @@
 import prismadb from "@/lib/prismadb";
 import {ProductsForm} from "@/app/(dashboard)/[storeId]/(routes)/products/[productId]/components/product-form";
 
-const ProductsPage = async ({params}: {params: { productId: string, storeId: string}}) => {
+const ProductsPage = async (props: {params: Promise<{ productId: string, storeId: string}>}) => {
+    const params = await props.params;
 
     const product = await prismadb.product.findUnique({
         where: {

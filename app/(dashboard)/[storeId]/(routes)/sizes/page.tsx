@@ -6,7 +6,8 @@ import {SizeClient} from "./components/client";
 
 
 // params c'est pour determiné l'id qui est connecté a ma billboards la reference est situé dans nos folders [] en nextjs
-const SizesPage = async ({params}: {params: {storeId: string}}) => {
+const SizesPage = async (props: {params: Promise<{storeId: string}>}) => {
+    const params = await props.params;
 
     const sizes = await prismadb.size.findMany({
         where: {

@@ -4,11 +4,12 @@ import {BillboardColumn} from "@/app/(dashboard)/[storeId]/(routes)/billboards/c
 import {format} from "date-fns";
 
 // params c'est pour determiné l'id qui est connecté a ma billboards la reference est situé dans nos folders [] en nextjs
-const BillboardsPage = async ({
-                                  params
-                              }: {
-    params: { storeId: string }
-}) => {
+const BillboardsPage = async (
+    props: {
+        params: Promise<{ storeId: string }>
+    }
+) => {
+    const params = await props.params;
     const billboards = await prismadb.billboard.findMany({
         where: {
             storeId: params.storeId

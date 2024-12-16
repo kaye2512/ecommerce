@@ -2,7 +2,8 @@ import {NextResponse} from "next/server";
 import {auth} from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
-export async function POST(req: Request, {params}: {params: {storeId: string}}){
+export async function POST(req: Request, props: {params: Promise<{storeId: string}>}) {
+    const params = await props.params;
     try {
         const {userId} = auth();
 
@@ -55,7 +56,8 @@ export async function POST(req: Request, {params}: {params: {storeId: string}}){
 }
 
 
-export async function GET(req: Request, {params}: {params: {storeId: string}}){
+export async function GET(req: Request, props: {params: Promise<{storeId: string}>}) {
+    const params = await props.params;
     try {
 
 

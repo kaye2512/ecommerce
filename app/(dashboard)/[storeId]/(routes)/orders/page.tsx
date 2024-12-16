@@ -5,7 +5,8 @@ import {OrderClient} from "@/app/(dashboard)/[storeId]/(routes)/orders/component
 import prismadb from "@/lib/prismadb";
 
 // params c'est pour determiné l'id qui est connecté a ma billboards la reference est situé dans nos folders [] en nextjs
-const OrdersPage = async ({params}: {params: {storeId: string}}) => {
+const OrdersPage = async (props: {params: Promise<{storeId: string}>}) => {
+    const params = await props.params;
 
     const orders = await prismadb.order.findMany({
         where: {
